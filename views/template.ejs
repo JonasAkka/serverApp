@@ -1,0 +1,54 @@
+<!doctype html>
+<html>
+ <head>
+  <meta charset="UTF-8">
+  <title>ToDoList</title>
+ </head>
+ <body>
+ 
+ 
+ <form>
+ <label for='put'>Que dois je faire?</label> <input type='text' name='champ' id='put' autofocus> 
+ <input type='button' value='ajouter' name='button'>
+ </form>
+ <ul id='liste'></ul>
+ <script>
+  var button=document.getElementsByName('button');
+  var buton=button[0];
+  var i=0;
+  buton.onclick=function(){
+  var champ=document.getElementById('put').value;
+  if(champ.trim()!=''){
+    var li=document.createElement('li');
+    text=document.createTextNode(champ);
+    var strong=document.createElement('strong');
+   
+    var lettre=document.createTextNode('✘  ');
+    strong.appendChild(lettre);
+    strong.id=li.id=i;  
+    li.appendChild(strong).appendChild(text);
+
+    var ul=document.getElementById('liste');
+    ul.appendChild(li);
+    i++;
+}
+
+  document.getElementById('put').value='';
+  var str=document.getElementsByTagName('strong');
+  var c=str.length;
+  for(j=0; j<c;j++) {
+    str[j].onclick=function() {
+          var idsup=this.getAttribute('id');
+          var par=this.parentNode.parentNode;
+          var elmsup=document.getElementById(idsup);
+          par.removeChild(elmsup);	
+      }
+     
+
+	 }
+  
+};
+ 
+ </script>
+ </body>
+ </html>
