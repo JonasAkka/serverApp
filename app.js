@@ -1,3 +1,14 @@
-console.log('Jonas');
-console.log('first test in this server app');
-console.log('jjjjjjjjjjjjOooooooooooooonas');
+var express = require('express');
+var app = express();
+const PORT = process.env.PORT ||3000;
+
+
+app.get('/about', function (req, res) {
+	res.send('Hello Jonas -_-');
+	
+});
+
+app.listen(PORT, function () {
+	console.log('serer listening to Port ' + PORT);
+
+});
