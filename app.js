@@ -4,7 +4,7 @@ const PORT = process.env.PORT ||3000;
 
 
 app.get('/about', function (req, res) {
-	res.send('Hello Jonas -_-');
+	res.send('Hello Jonas ');
 	
 });
 
