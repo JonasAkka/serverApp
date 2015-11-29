@@ -9,6 +9,6 @@ app.get('/about', function (req, res) {
 });
 
 app.listen(PORT, function () {
-	console.log('serer listening to Port ' + PORT);
+	console.log('server listening to Port ' + PORT);
 
 });
