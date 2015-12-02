@@ -105,8 +105,8 @@ app.delete('/todos/:id', function (req, res) {
 		} else {
 			res.status(204).send();
 		}
-	}, function (error) {
-		res.status(500).send(error);
+	}, function () {
+		res.status(500).send();
 	});
 
 
