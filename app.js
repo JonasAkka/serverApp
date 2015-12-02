@@ -61,7 +61,7 @@ app.get('/todos/:id', function (req, res) {
 	db.todo.findById(todoId).then(function(todo) {
 		res.send(todo);
 	}, function (e) {
-		res.status(404).send();
+		res.status(404).send(); //error on heroku ==>200ok
 	});
 	// var matchTodo = _.findWhere(todos, {id: todoId});
 	// if (matchTodo) {
@@ -94,12 +94,28 @@ app.post('/todos', function (req, res) {
 // DELETE /todos/:id
 app.delete('/todos/:id', function (req, res) {
 	var todoId = parseInt(req.params.id, 10);
-	var todoToDelete = _.findWhere(todos, {id: todoId});
-	if (!todoToDelete) {
-		res.status(404).send('no item to delete');
-	} else {	
-	todos = _.without(todos, todoToDelete);
+	
+	db.todo.destroy({
+		where: {
+		id: todoId
 	}
+	}).then(function (rows) {
+		if (rows === 0) {
+			res.send(deleted);
+		} else {
+			res.status(204).send();
+		}
+	}, function (error) {
+		res.status(500).send(error);
+	});
+
+
+	// var todoToDelete = _.findWhere(todos, {id: todoId});
+	// if (!todoToDelete) {
+	// 	res.status(404).send('no item to delete');
+	// } else {	
+	// todos = _.without(todos, todoToDelete);
+	// }
 });
 
 //PUT /todos/:id
