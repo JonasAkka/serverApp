@@ -105,7 +105,7 @@ app.delete('/todos/:id', function (req, res) {
 		} else {
 			res.status(204).send();
 		}
-	}, function () {
+	}, function (e) {
 		res.status(500).send();
 	});
 
@@ -122,26 +122,49 @@ app.delete('/todos/:id', function (req, res) {
 app.put('/todos/:id', function (req, res) {
 	var body = _.pick(req.body, 'completed', 'description');
 	var todoId = parseInt(req.params.id, 10);
-	var validAttributes = {};
-	var todoToUpdate = _.findWhere(todos, {id: todoId});
+	var attributes = {};
 
-	if (!todoToUpadate) { 
-		return res.status(404).send();
+	if (body.hasOwnProperty('completed')) {
+		attributes.completed = body.completed;
 	}
+	if (body.hasOwnProperty('description')) {
+		attributes.description= body.description;
+	}
+	db.todo.findById(todoId).then(function (todo) {
+		if (todo) {
+			todo.update(attributes).then(function (todo) {
+			res.json(todo.toJSON());
+	}, function (e) {
+				res.status(400).json(e); //400 invalid syntax
+	});
+		} else {
+			res.status(404).send();
+		}
+	}, function () {
+		res.status(500).send();
+	});
 
-	if (body.hasOwnProprety('completed') && _.isBoolean(body.completed)) {
-		validAttributes.completed = body.completed;
-	} else if (body.hasOwnProprety('completed')) {
-		return res.status(400).send();
-	} 
+	
+	
+	// var todoToUpdate = _.findWhere(todos, {id: todoId});
 
-	if (body.hasOwnProprety('description')  && _isString(body.description) && body.description.trim().length !== 0) {
-		validAttributes.description = body.description;
-	} else if (body.hasOwnProprety('description')) {
-		return res.status(400).send();
-	} 
-	 _.extend(todoToUpadate, validAttributes);
-	 res.json(todoToUpadate);
+	// if (!todoToUpadate) { 
+	// 	return res.status(404).send();
+	// }
+
+	// if (body.hasOwnProprety('completed') && _.isBoolean(body.completed)) {
+	// 	validAttributes.completed = body.completed;
+	// } else if (body.hasOwnProprety('completed')) {
+	// 	return res.status(400).send();
+	// } 
+
+	// if (body.hasOwnProprety('description')  && _isString(body.description) && body.description.trim().length !== 0) {
+	// 	validAttributes.description = body.description;
+	// } else if (body.hasOwnProprety('description')) {
+	// 	return res.status(400).send();
+	// } 
+	//  _.extend(todoToUpadate, validAttributes);
+	//  res.json(todoToUpadate);
 
 
 });
