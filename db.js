@@ -19,6 +19,7 @@ if (env === 'production') { //it's true if we are working on herku
 
 var db = {};
 db.todo = sequelize.import(__dirname + '/models/todo.js'); //the file called with import must have a specific format
+db.user = sequelize.import(__dirname + '/models/user.js');
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 

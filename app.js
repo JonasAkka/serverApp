@@ -4,7 +4,6 @@ var db = require('./db.js');
 var _ = require('underscore');
 
 var app = express();
-var todos = [];
 var todoNextId = 1;
 const PORT = process.env.PORT ||3000;
 
@@ -89,6 +88,19 @@ app.post('/todos', function (req, res) {
 	// body.id = todoNextId++;
 	// todos.push(body);
 	// res.json(body);
+});
+
+//POST
+app.post('/users', function (req, res) {
+	var body = _.pick(req.body, 'email', 'password');
+	
+		db.user.create(body).then(function (user) {
+			res.json(user.toJSON());
+		}, function (error) {
+			res.status(400).send(error);
+		});
+	
+
 });
 
 // DELETE /todos/:id
